@@ -11,6 +11,7 @@
         <module>bbin-utils</module>
         <module>bbin-common</module>
     </modules>
+
     <packaging>pom</packaging>
 
     <parent>
@@ -55,16 +56,33 @@
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
         <htmlunit.version>2.35.0</htmlunit.version>
         <velocity.version>2.0</velocity.version>
+        <slf4j-version>1.7.22</slf4j-version>
+        <lombok.version>1.16.16</lombok.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>

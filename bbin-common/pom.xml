@@ -101,6 +101,6 @@
             <artifactId>commons-beanutils</artifactId>
             <optional>true</optional>
         </dependency>
-
     </dependencies>
+
 </project>

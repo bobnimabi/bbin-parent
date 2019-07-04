@@ -15,7 +15,7 @@ import java.util.List;
  * Created by mrt on 2019/5/13 0013 下午 4:51
  * 功能：mybatis-plus代码生成工具类
  */
-public class CodeGenUtils {
+public class MyCodeGenUtils {
 
     /**
      * 自动生成代码

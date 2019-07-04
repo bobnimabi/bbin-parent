@@ -7,6 +7,7 @@
         <groupId>com.bbin</groupId>
         <version>2.1.0-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bbin-utils</artifactId>
@@ -115,4 +116,6 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+
+
 </project>
