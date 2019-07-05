@@ -29,7 +29,19 @@ public class ExceptionCatch {
     public ResponseResult customException(CustomException customException){
         //记录日志
         ResultCode resultCode = customException.getResultCode();
-        log.error("错误信息",customException);
+        log.error("错误信息:{}",customException);
+        return new ResponseResult(resultCode);
+    }
+
+    /**
+     * 自定义异常：捕获InvalidParamException此类异常
+     * 解释：非法参数异常
+     */
+    @ExceptionHandler(InvalidParamException.class)
+    @ResponseBody
+    public ResponseResult customException(InvalidParamException e){
+        ResultCode resultCode = e.getResultCode();
+        log.error("非法参数信息:{}", resultCode.message());
         return new ResponseResult(resultCode);
     }
 
@@ -39,7 +51,7 @@ public class ExceptionCatch {
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseBody
     public ResponseResult accessDeniedException(AccessDeniedException exception){
-        log.error("错误信息：",exception);
+        log.error("错误信息:{}",exception);
         return new ResponseResult(UNAUTHORISE);
     }
 
@@ -52,7 +64,7 @@ public class ExceptionCatch {
             MethodArgumentNotValidException e) {
         //记录日志
         CommonCode invalidParamCode = CommonCode.INVALID_PARAM;
-        log.error("错误信息：",e);
+        log.error("错误信息:{}",e);
         return new ResponseResult(invalidParamCode);
     }
 

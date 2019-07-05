@@ -36,7 +36,7 @@ public class BigDecimalUtils {
      */
     public static BigDecimal fenToYuan(BigDecimal fen) throws Exception {
         if (null == fen) {
-            log.error("未传入元的值");
+            log.error("未传入分的值");
             return null;
         }
         return fen.divide(ONE_HUNDRED).setScale(2, BigDecimal.ROUND_DOWN);

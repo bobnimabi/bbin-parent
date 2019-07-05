@@ -21,7 +21,6 @@ public class ExceptionCast {
     }
 
     public static void castInvalid(String mes){
-        ResultInfo resultInfo = new ResultInfo(false,11111,mes);
-        throw new CustomException(resultInfo);
+        throw new InvalidParamException(new ResultInfo(false,10003,mes));
     }
 }
