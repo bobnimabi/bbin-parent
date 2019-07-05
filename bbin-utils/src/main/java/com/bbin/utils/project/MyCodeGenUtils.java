@@ -19,26 +19,18 @@ public class MyCodeGenUtils {
 
     /**
      * 自动生成代码
-     * @param projectPath
-     * @param url
-     * @param username
-     * @param password
-     * @param modelName
-     * @param parentName
-     * @param tables
+     * @param projectPath 项目路径
+     * @param url 数据库url
+     * @param username 数据库账号
+     * @param password 数据库密码
+     * @param modelName 子模块名称
+     * @param parentName 父模块名称
+     * @param tables 表
      * @throws Exception
      */
-    public static void genCode(
-            String projectPath,
-            String driverClassName,
-            String url,
-            String username,
-            String password,
-            String modelName,
-            String parentName,
-            String[] tables
+    public static void genCode(String projectPath, String driverClassName, String url, String username,
+            String password, String modelName, String parentName, String[] tables) {
 
-    ) {
         try {
             projectPath=projectPath+"\\";
             /***************************************以下配置不要动****************************************/

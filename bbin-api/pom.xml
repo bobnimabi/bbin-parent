@@ -7,9 +7,8 @@
         <groupId>com.bbin</groupId>
         <version>2.1.0-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bbin-api</artifactId>
-
-
 </project>
