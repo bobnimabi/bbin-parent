@@ -6,6 +6,7 @@ import com.bbin.common.response.ResponseResult;
 import com.bbin.common.response.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
@@ -53,14 +54,25 @@ public class CheckParams {
     }
 
     /**
+     * 对象非空校验
+     * @param object 被校验对象
+     * @param errorMes 错误信息
+     */
+    public static void checkObj(Object object, String errorMes) throws Exception{
+        if (null == object) {
+            ExceptionCast.castInvalid(StringUtils.isEmpty(errorMes) ? "空对象" : errorMes);
+        }
+    }
+
+    /**
      * 状态值非法校验
      * @param status 被校验的状态
      * @param statusAll 所有的状态
      * @param errorMes 错误信息
      * @throws Exception
      */
-    public static void checkStatus(Integer status, List<Integer> statusAll, String errorMes) throws Exception {
-        boolean isContain = statusAll.contains(status);
+    public static void checkStatus(Integer status, Integer[] statusAll, String errorMes) throws Exception {
+        boolean isContain = ArrayUtils.contains(statusAll, status);
         if (!isContain) {
             ExceptionCast.castInvalid(StringUtils.isEmpty(errorMes) ? "状态有误" : errorMes);
         }

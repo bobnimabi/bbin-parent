@@ -124,7 +124,7 @@ public class ExcelUtil {
             response.addHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
             return response.getOutputStream();
         } catch (IOException e) {
-            ExceptionCast.castFail("创建Excel文件失败");
+            ExceptionCast.castFailMes("创建Excel文件失败");
         }
         return null;
     }
@@ -138,7 +138,7 @@ public class ExcelUtil {
                                          ExcelListener excelListener) {
         String filename = excel.getOriginalFilename();
         if (filename == null || (!filename.toLowerCase().endsWith(".xls") && !filename.toLowerCase().endsWith(".xlsx"))) {
-            ExceptionCast.castFail("Excel文件格式错误");
+            ExceptionCast.castFailMes("Excel文件格式错误");
         }
         InputStream inputStream;
         try {
@@ -158,7 +158,7 @@ public class ExcelUtil {
                                         String sheetName, Class<? extends BaseRowModel> baseClass,
                                         String filePath,String fileName,boolean hasNext) throws Exception{
 
-        if (CollectionUtils.isEmpty(list)) ExceptionCast.castFail("多批次导出Excel：list为空");
+        if (CollectionUtils.isEmpty(list)) ExceptionCast.castFailMes("多批次导出Excel：list为空");
         OutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(filePath + fileName);

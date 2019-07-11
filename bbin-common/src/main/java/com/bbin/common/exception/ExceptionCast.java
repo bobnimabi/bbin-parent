@@ -1,6 +1,7 @@
 package com.bbin.common.exception;
 
 
+import com.bbin.common.response.CommonCode;
 import com.bbin.common.response.ResultCode;
 import com.bbin.common.response.ResultInfo;
 
@@ -15,7 +16,11 @@ public class ExceptionCast {
         throw new CustomException(resultCode);
     }
 
-    public static void castFail(String mes){
+    public static void castFail(){
+        throw new CustomException(CommonCode.FAIL);
+    }
+
+    public static void castFailMes(String mes){
         ResultInfo resultInfo = new ResultInfo(false,11111,mes);
         throw new CustomException(resultInfo);
     }

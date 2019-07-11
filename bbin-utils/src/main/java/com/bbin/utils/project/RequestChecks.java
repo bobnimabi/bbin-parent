@@ -71,7 +71,7 @@ public class RequestChecks {
         boolean permit = false;
         String ipAddress = IpUtil.getIpAddress(request);
         if (CollectionUtils.isEmpty(ips)) {
-            ExceptionCast.castFail("未放行任何ip");
+            ExceptionCast.castFailMes("未放行任何ip");
         }
         for (String ip : ips) {
             if (ip.equals(ipAddress)) {
