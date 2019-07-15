@@ -5,6 +5,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -14,6 +15,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +43,7 @@ public class SendRequest {
      * @throws ClientProtocolException
      * @throws IOException
      */
-    public static MyHttpResult sendGet(CloseableHttpClient client, String url, Map<String, String> headers, Map<String, String> params, String encoding,
+    public static MyHttpResult sendGet(HttpClient client, String url, Map<String, String> headers, Map<String, String> params, String encoding,
                                        boolean duan) throws ClientProtocolException, IOException {
         url = url + (null == params ? "" : assemblyParameter(params));
         HttpGet hp = new HttpGet(url);
@@ -68,16 +70,19 @@ public class SendRequest {
      * @throws ClientProtocolException
      * @throws IOException
      */
-    public static MyHttpResult sendPost(CloseableHttpClient client, String url, Map<String, String> headers, Map<String, String> params, String encoding , boolean flag)
+    public static MyHttpResult sendPost(HttpClient client, String url, Map<String, String> headers, Map<String, String> params, String encoding , boolean flag)
             throws ClientProtocolException, IOException {
-        HttpPost post = new HttpPost(url);
-
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         for (String temp : params.keySet()) {
             list.add(new BasicNameValuePair(temp, params.get(temp)));
         }
-        post.setEntity(new UrlEncodedFormEntity(list, encoding));
+        return sendPostDetail(client,url,headers,list,encoding,flag);
+    }
 
+    //post细节
+    private static MyHttpResult sendPostDetail(HttpClient client,  String url,Map<String, String> headers, List<NameValuePair> list, String encoding, boolean flag) throws IOException {
+        HttpPost post = new HttpPost(url);
+        post.setEntity(new UrlEncodedFormEntity(list, encoding));
         if (null != headers)
             post.setHeaders(assemblyHeader(headers));
         HttpResponse response = client.execute(post);
@@ -90,6 +95,10 @@ public class SendRequest {
         result.setHeaders(response.getAllHeaders());
         result.setHttpEntity(entity);
         return result;
+    }
+
+    public static MyHttpResult sendPostList(HttpClient client, String url, Map<String, String> headers, List<NameValuePair> bodyList, String encoding , boolean flag) throws IOException {
+        return sendPostDetail(client,url,headers,bodyList,encoding,flag);
     }
 
     /**
