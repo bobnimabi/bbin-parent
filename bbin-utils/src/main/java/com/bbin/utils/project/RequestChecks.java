@@ -132,4 +132,33 @@ public class RequestChecks {
         }
         return false;
     }
+
+    // 刷新令牌有效期
+    public static void flushJwtInDate(String shortJwtToken, RedisTemplate redis) {
+        try {
+            //key
+            String key = CommonConstant.Login.LOGIN_TOKEN_PRE + shortJwtToken;
+            Boolean setExpire = redis.expire(key, 1800, TimeUnit.SECONDS);
+            if (!setExpire) {
+                log.error("刷新Token过期时间失败：uid:{}", shortJwtToken);
+            }
+        } catch (Exception e) {
+            log.error("刷新Token过期时间异常", e);
+        }
+    }
+
+    // 通过username刷新登录标志
+    public static void flushLoginFlag(String userName, RedisTemplate redis) {
+        try {
+            //key
+            String key = CommonConstant.Login.LOGIN_FLAG_PRE + userName;
+            Boolean setExpire = redis.expire(key, 1800, TimeUnit.SECONDS);
+            if (!setExpire) {
+                log.error("刷新登录标志过期时间失败：uid:{}", userName);
+            }
+        } catch (Exception e) {
+            log.error("刷新登录标志过期时间异常", e);
+        }
+    }
+
 }

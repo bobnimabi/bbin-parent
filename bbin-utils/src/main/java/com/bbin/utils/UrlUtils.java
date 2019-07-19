@@ -1,6 +1,8 @@
 package com.bbin.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by mrt on 2019/7/15 0015 下午 2:17
@@ -32,5 +34,22 @@ public class UrlUtils {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static Map<String, String> getUrlParams(String url) {
+        Map<String, String> map = new HashMap<>();
+        url = url.replace("?", ";");
+        if (!url.contains(";")) {
+            return map;
+        }
+        if (url.split(";").length > 0) {
+            String[] arr = url.split(";")[1].split("&");
+            for (String s : arr) {
+                String key = String.valueOf(s.split("=")[0]);
+                String value = String.valueOf(s.split("=")[1]);
+                map.put(key, value);
+            }
+        }
+        return map;
     }
 }

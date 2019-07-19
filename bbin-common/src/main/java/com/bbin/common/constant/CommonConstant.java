@@ -34,6 +34,10 @@ public class CommonConstant {
     public static class Login {
         //项目的redis前缀
         public static final String LOGIN_PRE = "Login:";
+        //项目的redis前缀
+        public static final String LOGIN_TOKEN_PRE = LOGIN_PRE + "user_token:";
+        //用户的登录标志（redis的key）
+        public static final String LOGIN_FLAG_PRE = LOGIN_PRE + "Login_flag:";
     }
 
     //环境变量
