@@ -1,8 +1,6 @@
-package com.bbin.utils.project;
+package com.bbin.common.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.JSONSerializer;
-import com.alibaba.fastjson.serializer.PropertyPreFilter;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 
 /**
@@ -19,6 +17,9 @@ public class FastJsonUtils {
      */
     public static String jsonToStringInclude(Object obj,String... strings) throws Exception{
         SimplePropertyPreFilter filter = new SimplePropertyPreFilter(strings);
+        for (String string : strings) {
+            filter.getIncludes().add(string);
+        }
         return JSON.toJSONString(obj, filter);
     }
 
@@ -30,17 +31,10 @@ public class FastJsonUtils {
      * @throws Exception
      */
     public static String jsonToStringExclude(Object obj,String... strings) throws Exception{
-        PropertyPreFilter propertyPreFilter = new PropertyPreFilter() {
-            @Override
-            public boolean apply(JSONSerializer jsonSerializer, Object source, String name) {
-                for (String str: strings) {
-                    if (name.equalsIgnoreCase(str)) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        };
-        return JSON.toJSONString(obj, propertyPreFilter);
+        SimplePropertyPreFilter filter = new SimplePropertyPreFilter(strings);
+        for (String string : strings) {
+            filter.getExcludes().add(string);
+        }
+        return JSON.toJSONString(obj, filter);
     }
 }
