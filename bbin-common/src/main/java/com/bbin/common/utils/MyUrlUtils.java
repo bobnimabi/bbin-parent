@@ -10,9 +10,9 @@ public class MyUrlUtils {
      * @param permitUrls 允许的url数组
      * @param requestURI 本次访问的url
      * @return
-     * @throws Exception
+     * @
      */
-    public static boolean matchUrl(String[] permitUrls, String requestURI) throws Exception {
+    public static boolean matchUrl(String[] permitUrls, String requestURI)  {
         boolean flag = false;
         String lastUrl = requestURI.substring(requestURI.lastIndexOf("/") + 1);
         for (String url : permitUrls) {

@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class RequestChecks {
 
     //拒绝访问
-    public static void access_denied(HttpServletResponse response, String loginUrl, ResultCode resultCode) throws Exception{
+    public static void access_denied(HttpServletResponse response, String loginUrl, ResultCode resultCode) {
         //构建响应的信息
         ResponseResult result = new ResponseResult(resultCode);
         //重定向到登录页面
@@ -34,7 +34,7 @@ public class RequestChecks {
     }
 
     //从头取出jwt令牌
-    public static String getJwtFromHeader(HttpServletRequest request) throws Exception{
+    public static String getJwtFromHeader(HttpServletRequest request) {
         //取出头信息
         String authorization = request.getHeader("Authorization");
         if(StringUtils.isEmpty(authorization)){
@@ -49,7 +49,7 @@ public class RequestChecks {
     }
 
     //从cookie取出uid
-    public static String getTokenFromCookie(HttpServletRequest request) throws Exception{
+    public static String getTokenFromCookie(HttpServletRequest request) {
         Map<String, String> cookieMap = CookieUtil.readCookie(request, "uid");
         String access_token = cookieMap.get("uid");
         if(StringUtils.isEmpty(access_token)){
@@ -59,7 +59,7 @@ public class RequestChecks {
     }
 
     //查询令牌的有效期
-    public static long getExpire(String access_token, RedisTemplate redisTemplate) throws Exception{
+    public static long getExpire(String access_token, RedisTemplate redisTemplate) {
         //key
         String key = CommonConstant.Login.LOGIN_PRE + "user_token:"+access_token;
         Long expire = redisTemplate.getExpire(key, TimeUnit.SECONDS);
@@ -67,7 +67,7 @@ public class RequestChecks {
     }
 
     //校验ip
-    public static boolean checkIp(HttpServletRequest request, HttpServletResponse response, List<String> ips,String loginUrl) throws Exception{
+    public static boolean checkIp(HttpServletRequest request, HttpServletResponse response, List<String> ips,String loginUrl) {
         boolean permit = false;
         String ipAddress = IpUtil.getIpAddress(request);
         if (CollectionUtils.isEmpty(ips)) {
@@ -86,7 +86,7 @@ public class RequestChecks {
     }
 
     //是否放行此url
-    public static boolean permitUrl(HttpServletRequest request,String permitUrl) throws Exception{
+    public static boolean permitUrl(HttpServletRequest request,String permitUrl) {
         String requestURI = request.getRequestURI();
         String[] urls = permitUrl.split(",");
 
@@ -99,7 +99,7 @@ public class RequestChecks {
     }
 
     //校验短令牌
-    public static String checkShortToken(HttpServletRequest request,HttpServletResponse response, RedisTemplate<String,String> redis,String loginUrl) throws Exception{
+    public static String checkShortToken(HttpServletRequest request,HttpServletResponse response, RedisTemplate<String,String> redis,String loginUrl) {
         //1.取cookie中的短令牌
         String jwtShortToken = RequestChecks.getTokenFromCookie(request);
         if(StringUtils.isEmpty(jwtShortToken) || checkTokenExpire(jwtShortToken,response,redis,loginUrl)){
@@ -111,7 +111,7 @@ public class RequestChecks {
     }
 
     //校验长令牌
-    public static boolean checkLongToken(HttpServletRequest request,HttpServletResponse response,String loginUrl) throws Exception{
+    public static boolean checkLongToken(HttpServletRequest request,HttpServletResponse response,String loginUrl) {
         //2.从header中取jwt长令牌
         String jwtLongToken = RequestChecks.getJwtFromHeader(request);
         if(StringUtils.isEmpty(jwtLongToken)){
@@ -123,7 +123,7 @@ public class RequestChecks {
     }
 
     //校验短令牌是否过期
-    public static boolean checkTokenExpire(String jwtShortToken, HttpServletResponse response, RedisTemplate<String,String> redis,String loginUrl) throws Exception{
+    public static boolean checkTokenExpire(String jwtShortToken, HttpServletResponse response, RedisTemplate<String,String> redis,String loginUrl) {
         long expire = RequestChecks.getExpire(jwtShortToken,redis);
         if (expire <= 0) {
             //拒绝访问

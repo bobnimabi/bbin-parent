@@ -26,7 +26,7 @@ public class MyCodeGenUtils {
      * @param modelName 子模块名称
      * @param parentName 父模块名称
      * @param tables 表
-     * @throws Exception
+     * @
      */
     public static void genCode(String projectPath, String driverClassName, String url, String username,
             String password, String modelName, String parentName, String[] tables) {

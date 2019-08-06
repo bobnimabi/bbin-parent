@@ -1,7 +1,11 @@
 package com.bbin.common.utils;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -30,7 +34,7 @@ public class SignByRSA {
      *
      * @return 密钥对
      */
-    public static KeyPair getKeyPair() throws Exception {
+    public static KeyPair getKeyPair() throws NoSuchAlgorithmException {
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
         generator.initialize(1024);
         return generator.generateKeyPair();
@@ -42,7 +46,7 @@ public class SignByRSA {
      * @param privateKey 私钥字符串
      * @return
      */
-    public static PrivateKey getPrivateKey(String privateKey) throws Exception {
+    public static PrivateKey getPrivateKey(String privateKey) throws InvalidKeySpecException, NoSuchAlgorithmException {
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         byte[] decodedKey = Base64.getDecoder().decode(privateKey.getBytes());
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
@@ -55,7 +59,7 @@ public class SignByRSA {
      * @param publicKey 公钥字符串
      * @return
      */
-    public static PublicKey getPublicKey(String publicKey) throws Exception {
+    public static PublicKey getPublicKey(String publicKey) throws InvalidKeySpecException, NoSuchAlgorithmException {
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         byte[] decodedKey = Base64.getDecoder().decode(publicKey.getBytes());
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedKey);
@@ -69,7 +73,7 @@ public class SignByRSA {
      * @param publicKey 公钥
      * @return
      */
-    public static String encrypt(String data, PublicKey publicKey) throws Exception {
+    public static String encrypt(String data, PublicKey publicKey) throws BadPaddingException, IllegalBlockSizeException, IOException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         int inputLen = data.getBytes().length;
@@ -102,7 +106,7 @@ public class SignByRSA {
      * @param privateKey 私钥
      * @return
      */
-    public static String decrypt(String data, PrivateKey privateKey) throws Exception {
+    public static String decrypt(String data, PrivateKey privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
         byte[] dataBytes = Base64.getDecoder().decode(data);
@@ -135,7 +139,7 @@ public class SignByRSA {
      * @param privateKey 私钥
      * @return 签名
      */
-    public static String sign(String data, PrivateKey privateKey) throws Exception {
+    public static String sign(String data, PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException {
         byte[] keyBytes = privateKey.getEncoded();
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -154,7 +158,7 @@ public class SignByRSA {
      * @param sign 签名
      * @return 是否验签通过
      */
-    public static boolean verify(String srcData, PublicKey publicKey, String sign) throws Exception {
+    public static boolean verify(String srcData, PublicKey publicKey, String sign) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException {
         byte[] keyBytes = publicKey.getEncoded();
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");

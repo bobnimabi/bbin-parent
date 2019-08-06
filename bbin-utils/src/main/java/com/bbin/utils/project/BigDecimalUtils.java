@@ -17,9 +17,9 @@ public class BigDecimalUtils {
      * 注意：一定要接收，因为运算后的结果会存放到新的对象
      * @param yuan 金额，单位：元
      * @return  新的计算好的Bigdecimal
-     * @throws Exception
+     * @
      */
-    public static BigDecimal yuanToFen(BigDecimal yuan) throws Exception {
+    public static BigDecimal yuanToFen(BigDecimal yuan)  {
         if (null == yuan) {
             log.error("未传入元的值");
             return null;
@@ -32,9 +32,9 @@ public class BigDecimalUtils {
      * 注意：一定要接收，因为运算后会存放到新的对象
      * @param fen 金额，单位：分
      * @return 新的计算好的Bigdecimal
-     * @throws Exception
+     * @
      */
-    public static BigDecimal fenToYuan(BigDecimal fen) throws Exception {
+    public static BigDecimal fenToYuan(BigDecimal fen)  {
         if (null == fen) {
             log.error("未传入分的值");
             return null;

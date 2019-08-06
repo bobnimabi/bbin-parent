@@ -10,7 +10,10 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.util.StringUtils;
 import java.lang.reflect.Method;
-import java.util.Base64;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.TreeMap;
 
 /**
@@ -23,19 +26,19 @@ public abstract class AbstractVerifySign {
     /**
      * 获取公钥
      * @return
-     * @throws Exception
+     * @
      */
-    protected abstract String getPublicKeyStr() throws Exception;
+    protected abstract String getPublicKeyStr() ;
 
     /**
      * 获取需签名url
      * @return
-     * @throws Exception
+     * @
      */
-    protected abstract String getSignUrl() throws Exception;
+    protected abstract String getSignUrl() ;
 
 
-    protected ResponseResult checkSign(ProceedingJoinPoint point) throws Exception{
+    protected ResponseResult checkSign(ProceedingJoinPoint point) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException {
         if (this.isSign(point) && !this.verifySign(point)) {
             return ResponseResult.FAIL("验签失败");
         }
@@ -44,7 +47,7 @@ public abstract class AbstractVerifySign {
 
 
     // 是否需要签名
-    private boolean isSign(ProceedingJoinPoint point) throws Exception{
+    private boolean isSign(ProceedingJoinPoint point) {
         String methodName = getMethod(point);
         boolean flag = false;
         String signUrl = getSignUrl();
@@ -59,7 +62,7 @@ public abstract class AbstractVerifySign {
     }
 
     // 获取签名公钥并验签
-    private boolean verifySign(ProceedingJoinPoint point) throws Exception{
+    private boolean verifySign(ProceedingJoinPoint point) throws InvalidKeySpecException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         String body = getJson(point);
         // key按字典排序
         TreeMap<String,Object> treeMap = (TreeMap<String, Object>) JSON.parseObject(body, TreeMap.class);
@@ -76,12 +79,12 @@ public abstract class AbstractVerifySign {
     }
 
     // 获取签名json
-    private String getSignJson(TreeMap<String,Object> treeMap) throws Exception{
+    private String getSignJson(TreeMap<String,Object> treeMap) {
         return FastJsonUtils.jsonToStringExclude(treeMap, SIFN_KEY);
     }
 
     // 获取签名body的json串
-    private String getJson(ProceedingJoinPoint point) throws Exception {
+    private String getJson(ProceedingJoinPoint point)  {
         Object[] args = point.getArgs();
         String jsonStr = JSON.toJSONString(args);
         // 去掉最前[ 和 最后]
@@ -89,7 +92,7 @@ public abstract class AbstractVerifySign {
     }
 
     // 获取方法名称
-    private String getMethod(ProceedingJoinPoint ProceedingJoinPoint) throws NoSuchMethodException {
+    private String getMethod(ProceedingJoinPoint ProceedingJoinPoint)  {
             Signature sig = ProceedingJoinPoint.getSignature();
             MethodSignature msig = null;
             if (!(sig instanceof MethodSignature)) {
@@ -97,7 +100,12 @@ public abstract class AbstractVerifySign {
             }
             msig = (MethodSignature) sig;
             Object target = ProceedingJoinPoint.getTarget();
-            Method currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());
-            return currentMethod.getName();
+        Method currentMethod = null;
+        try {
+            currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());
+        } catch (NoSuchMethodException e) {
+            log.error("NoSuchMethodException", e);
+        }
+        return currentMethod.getName();
     }
 }

@@ -18,21 +18,21 @@ import java.util.Map;
 public class XcCookieUtil {
 
     //将令牌存储到cookie
-    public static void saveCookie(String token,String cookieDomain,int cookieMaxAge) throws Exception{
+    public static void saveCookie(String token,String cookieDomain,int cookieMaxAge) {
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         //HttpServletResponse response,String domain,String path, String name, String value, int maxAge,boolean httpOnly
         CookieUtil.addCookie(response,cookieDomain,"/","uid",token,cookieMaxAge,false);
     }
 
     //从cookie删除token
-    public static void clearCookie(String token,String cookieDomain) throws Exception{
+    public static void clearCookie(String token,String cookieDomain) {
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         //HttpServletResponse response,String domain,String path, String name, String value, int maxAge,boolean httpOnly
         CookieUtil.addCookie(response,cookieDomain,"/","uid",token,0,false);
     }
 
     //取出cookie中的身份令牌
-    public static String getTokenFormCookie( HttpServletRequest request) throws Exception{
+    public static String getTokenFormCookie( HttpServletRequest request) {
         Map<String, String> map = CookieUtil.readCookie(request, "uid");
 
         if(map!=null && map.get("uid")!=null){

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -13,28 +14,33 @@ import java.io.PrintWriter;
 @Slf4j
 public class ResponseUtils {
 
-    public static void writeJson(HttpServletResponse response, Object o,int statusCode)throws Exception {
+    public static void writeJson(HttpServletResponse response, Object o,int statusCode) {
         response.setStatus(statusCode);
         write(response, o, "application/json;charset=utf-8");
     }
 
-    public static void writeHtml(HttpServletResponse response, Object o,int statusCode)throws Exception {
+    public static void writeHtml(HttpServletResponse response, Object o,int statusCode) {
         response.setStatus(statusCode);
         write(response, o, "text/html;charset=utf-8");
     }
 
-    public static void writeText(HttpServletResponse response, Object o,int statusCode)throws Exception {
+    public static void writeText(HttpServletResponse response, Object o,int statusCode) {
         response.setStatus(statusCode);
         write(response, o, "text/plain;charset=UTF-8");
     }
 
-    public static void writeXml(HttpServletResponse response, Object o,int statusCode)throws Exception {
+    public static void writeXml(HttpServletResponse response, Object o,int statusCode) {
         response.setStatus(statusCode);
         write(response, o, "text/xml;charset=UTF-8");
     }
 
-    public static void write(HttpServletResponse response, Object o,String contentType)throws Exception {
-        PrintWriter out = response.getWriter();
+    public static void write(HttpServletResponse response, Object o,String contentType) {
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+        } catch (IOException e) {
+            log.error("IOException", e);
+        }
         try {
             response.setContentType(contentType);
             out.println(JSON.toJSONString(o));

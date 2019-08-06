@@ -25,7 +25,7 @@ public class CheckParams {
      * @param result 校验结果
      * @param errorMes 错误信息
      */
-    public static void check(boolean result,String errorMes) throws Exception{
+    public static void check(boolean result,String errorMes) {
         if (!result) {
             ExceptionCast.castInvalid(StringUtils.isEmpty(errorMes) ? "未指定" : errorMes);
         }
@@ -36,7 +36,7 @@ public class CheckParams {
      * @param str 被校验字符串
      * @param errorMes 错误信息
      */
-    public static void checkStr(String str,String errorMes) throws Exception{
+    public static void checkStr(String str,String errorMes) {
         if (StringUtils.isEmpty(str)) {
             ExceptionCast.castInvalid(StringUtils.isEmpty(errorMes) ? "空字符串" : errorMes);
         }
@@ -47,7 +47,7 @@ public class CheckParams {
      * @param collection 被校验集合
      * @param errorMes 错误信息
      */
-    public static void checkCollection(Collection collection, String errorMes) throws Exception{
+    public static void checkCollection(Collection collection, String errorMes) {
         if (CollectionUtils.isEmpty(collection)) {
             ExceptionCast.castInvalid(StringUtils.isEmpty(errorMes) ? "空集合" : errorMes);
         }
@@ -58,7 +58,7 @@ public class CheckParams {
      * @param object 被校验对象
      * @param errorMes 错误信息
      */
-    public static void checkObj(Object object, String errorMes) throws Exception{
+    public static void checkObj(Object object, String errorMes) {
         if (null == object) {
             ExceptionCast.castInvalid(StringUtils.isEmpty(errorMes) ? "空对象" : errorMes);
         }
@@ -69,9 +69,9 @@ public class CheckParams {
      * @param status 被校验的状态
      * @param statusAll 所有的状态
      * @param errorMes 错误信息
-     * @throws Exception
+     * @
      */
-    public static void checkStatus(Integer status, Integer[] statusAll, String errorMes) throws Exception {
+    public static void checkStatus(Integer status, Integer[] statusAll, String errorMes)  {
         boolean isContain = ArrayUtils.contains(statusAll, status);
         if (!isContain) {
             ExceptionCast.castInvalid(StringUtils.isEmpty(errorMes) ? "状态有误" : errorMes);
@@ -83,9 +83,9 @@ public class CheckParams {
      * @param startTime 起始时间
      * @param endTime 结束时间
      * @param errorMes 错误信息
-     * @throws Exception
+     * @
      */
-    public static void checkStartAndEndTime(LocalDateTime startTime,LocalDateTime endTime, String errorMes) throws Exception {
+    public static void checkStartAndEndTime(LocalDateTime startTime,LocalDateTime endTime, String errorMes)  {
         if (null != startTime
                 && null != endTime
                 && startTime.isAfter(endTime)) {

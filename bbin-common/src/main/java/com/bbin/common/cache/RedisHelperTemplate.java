@@ -22,7 +22,7 @@ public class RedisHelperTemplate {
     //创建锁的锁
     private static ReentrantLock lock = new ReentrantLock();
 
-    private static ReentrantLock getLock(String key) throws Exception{
+    private static ReentrantLock getLock(String key) {
         ReentrantLock textLock = lockMap.get(key);
         if (null == textLock) {
             if (lock.tryLock()) {
@@ -41,7 +41,7 @@ public class RedisHelperTemplate {
         return textLock;
     }
 
-    public static InnerResult<String> queryText(String key, RedisTemplate<String,String> redis, DataBaseAid dataBaseAid) throws Exception{
+    public static InnerResult<String> queryText(String key, RedisTemplate<String,String> redis, DataBaseAid dataBaseAid) {
         String text = redis.opsForValue().get(key);
         if (StringUtils.isEmpty(text)) {
             ReentrantLock textLock = getLock(key);
@@ -59,7 +59,11 @@ public class RedisHelperTemplate {
                     textLock.unlock();
                 }
             } else {
-                Thread.sleep(100);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    log.error("InterruptedException", e);
+                }
                 return queryText(key, redis, dataBaseAid);
             }
         }
@@ -67,7 +71,7 @@ public class RedisHelperTemplate {
     }
 
     //查询出来后封装对象
-    public <T> InnerResult<T> queryObj(String key, RedisTemplate<String,String> redis, DataBaseAid dataBaseAid, Class<T> tClass) throws Exception{
+    public <T> InnerResult<T> queryObj(String key, RedisTemplate<String,String> redis, DataBaseAid dataBaseAid, Class<T> tClass) {
         InnerResult<String> result = queryText(key, redis, dataBaseAid);
         if (!result.isSuccess()) return InnerResult.FAIL(result.getMessage());
         String jsonStr = result.getObj();
@@ -75,7 +79,7 @@ public class RedisHelperTemplate {
     }
 
     //删除
-    public static boolean del(String key,RedisTemplate<String,String> redis) throws Exception{
+    public static boolean del(String key,RedisTemplate<String,String> redis) {
         return redis.delete(key);
     }
 }

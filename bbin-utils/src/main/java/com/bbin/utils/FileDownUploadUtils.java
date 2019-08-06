@@ -74,7 +74,7 @@ public class FileDownUploadUtils {
     }
 
     //文件写入字符串
-    public static void writeStr(String path , String content, boolean isAppend) throws Exception{
+    public static void writeStr(String path , String content, boolean isAppend) {
         FileWriter fileWriter = new FileWriter(path, isAppend);
         try {
             IOUtils.write(content, fileWriter);
@@ -90,7 +90,7 @@ public class FileDownUploadUtils {
     }
 
     //输入流下载
-    public static void downStream(HttpServletResponse response,InputStream inStream,String fileName ) throws Exception{
+    public static void downStream(HttpServletResponse response,InputStream inStream,String fileName ) {
         ServletOutputStream outputStream = response.getOutputStream();
         response.reset();
 //        response.setContentType("bin");
@@ -119,7 +119,7 @@ public class FileDownUploadUtils {
     }
 
     //文件下载:下载后文件会删除
-    public static void downFile(HttpServletResponse response,String filePath,String fileName) throws Exception{
+    public static void downFile(HttpServletResponse response,String filePath,String fileName) {
         File file = new File(filePath + fileName);
         InputStream inStream = new FileInputStream(file);
         ServletOutputStream outputStream = response.getOutputStream();

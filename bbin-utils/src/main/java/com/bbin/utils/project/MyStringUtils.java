@@ -10,9 +10,9 @@ public class MyStringUtils {
      * 首字母大写
      * @param str
      * @return
-     * @throws Exception
+     * @
      */
-    public static String uppercaseFirst(String str) throws Exception {
+    public static String uppercaseFirst(String str)  {
         return (char)(str.charAt(0) - 32) + str.substring(1);
     }
 }

@@ -16,7 +16,7 @@ public class XcOauth2Util {
     /**
      * 获取jwt令牌里面的信息
      */
-    public static String getJwtInfo(HttpServletRequest request) throws Exception{
+    public static String getJwtInfo(HttpServletRequest request) {
         //取出头信息
         String authorization = request.getHeader("Authorization");
         if (StringUtils.isEmpty(authorization) || authorization.indexOf("Bearer") < 0) {

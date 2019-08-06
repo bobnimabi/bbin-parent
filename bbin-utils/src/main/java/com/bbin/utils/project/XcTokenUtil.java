@@ -22,7 +22,7 @@ public class XcTokenUtil {
      * @param ttl          过期时间
      * @return
      */
-    public static boolean saveToken(String uid, String content, long ttl, StringRedisTemplate stringRedisTemplate) throws Exception{
+    public static boolean saveToken(String uid, String content, long ttl, StringRedisTemplate stringRedisTemplate) {
         String key = CommonConstant.Login.LOGIN_PRE +"user_token:" + uid;
         stringRedisTemplate.boundValueOps(key).set(content, ttl, TimeUnit.SECONDS);
         Long expire = stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
@@ -30,13 +30,13 @@ public class XcTokenUtil {
     }
 
     //删除token
-    public static boolean delToken(String uid, StringRedisTemplate stringRedisTemplate) throws Exception{
+    public static boolean delToken(String uid, StringRedisTemplate stringRedisTemplate) {
         String key = CommonConstant.Login.LOGIN_PRE +"user_token:" + uid;
         return stringRedisTemplate.delete(key);
     }
 
     //从redis查询令牌
-    public static AuthToken getUserToken(String uid, StringRedisTemplate stringRedisTemplate) throws Exception{
+    public static AuthToken getUserToken(String uid, StringRedisTemplate stringRedisTemplate) {
         String key = CommonConstant.Login.LOGIN_PRE +"user_token:" + uid;
         //从redis中取到令牌信息
         String value = stringRedisTemplate.opsForValue().get(key);
@@ -52,7 +52,7 @@ public class XcTokenUtil {
     }
 
     //拿出用户信息
-    public static AuthToken getUserInfo(HttpServletRequest request, String environment, StringRedisTemplate redis) throws Exception {
+    public static AuthToken getUserInfo(HttpServletRequest request, String environment, StringRedisTemplate redis)  {
         // 正式环境
         if (CommonConstant.PROD.equals(environment)) {
             String uid = XcCookieUtil.getTokenFormCookie(request);

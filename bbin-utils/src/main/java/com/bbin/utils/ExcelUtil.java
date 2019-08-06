@@ -156,7 +156,7 @@ public class ExcelUtil {
      */
     public static void writeExcelBatch( List<? extends BaseRowModel> list,
                                         String sheetName, Class<? extends BaseRowModel> baseClass,
-                                        String filePath,String fileName,boolean hasNext) throws Exception{
+                                        String filePath,String fileName,boolean hasNext) {
 
         if (CollectionUtils.isEmpty(list)) ExceptionCast.castFailMes("多批次导出Excel：list为空");
         OutputStream outputStream = null;
@@ -179,15 +179,15 @@ public class ExcelUtil {
     /**********************************多批次生成Excel需要唯一的ExcelWriter**************************************/
     private static class container {
         private static ThreadLocal<ExcelWriter> threadLocal = new ThreadLocal<>();
-        public static ExcelWriter getExcelWriter() throws Exception{
+        public static ExcelWriter getExcelWriter() {
             return threadLocal.get();
         }
 
-        public static void setExcelWriter(ExcelWriter excelWriter) throws Exception{
+        public static void setExcelWriter(ExcelWriter excelWriter) {
             threadLocal.set(excelWriter);
         }
 
-        public static void removeExcelWriter() throws Exception{
+        public static void removeExcelWriter() {
             threadLocal.remove();
         }
     }

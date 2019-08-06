@@ -89,7 +89,7 @@ public class MyHttpResult implements Serializable {
     /**
      * 获取响应json
      */
-    public String getResultInfo() throws Exception{
+    public String getResultInfo() {
         return IOUtils.toString(this.getHttpEntity().getContent(), "utf-8");
     }
 

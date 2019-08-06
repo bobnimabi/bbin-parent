@@ -12,7 +12,7 @@ public class ZipUtil {
      * @param targetPath
      * @throws ZipException
      */
-    public static void unzip(String zipFilePath,String targetPath) throws Exception{
+    public static void unzip(String zipFilePath,String targetPath) {
         ZipFile zipFile = new ZipFile(zipFilePath);
         zipFile.extractAll(targetPath);
     }
@@ -24,7 +24,7 @@ public class ZipUtil {
      * @param password
      * @throws ZipException
      */
-    public static void unzip(String zipFilePath,String password,String targetPath) throws Exception{
+    public static void unzip(String zipFilePath,String password,String targetPath) {
         ZipFile zipFile = new ZipFile(zipFilePath);
         if (zipFile.isEncrypted()) {
             zipFile.setPassword(password);
@@ -32,7 +32,7 @@ public class ZipUtil {
         zipFile.extractAll(targetPath);
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args)  {
         ZipUtil.unzip("F:\\develop\\upload\\upload.zip","F:\\develop\\upload\\zip\\");
     }
 }
