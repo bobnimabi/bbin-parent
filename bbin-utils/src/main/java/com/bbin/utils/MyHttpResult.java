@@ -21,16 +21,14 @@ import java.util.zip.GZIPInputStream;
  */
 @ToString
 public class MyHttpResult implements Serializable {
+
     /**
      * Logger for this class
      */
-
     private int statusCode;
     private HashMap<String, Header> headerAll;
     private HttpEntity httpEntity;
     private String otherContent;
-
-
 
     /**
      * 获取结果状态码
@@ -89,7 +87,7 @@ public class MyHttpResult implements Serializable {
     /**
      * 获取响应json
      */
-    public String getResultInfo() {
+    public String getResultInfo() throws IOException {
         return IOUtils.toString(this.getHttpEntity().getContent(), "utf-8");
     }
 
