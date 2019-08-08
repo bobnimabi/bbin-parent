@@ -5,29 +5,29 @@ import java.math.BigDecimal;
 /**
  * Created by mrt on 2019/4/6 0006 下午 6:39
  */
-public class CommonConstant {
+public class CommonConsts {
     /**********************************以下常量所有活动通用**************************************/
 
-    //逻辑常量是 与 否
+    // 逻辑常量：是 与 否
     public static final int YES = 1;
     public static final int NO = 0;
 
-    //开启
+    // 有效状态：有效 与 删除
     public static final int OPEN = 1;
-    //删除
     public static final int DELETE = -1;
 
+    // 字符编码
+    public static final String ENCODING_UTF_8 = "utf-8";
 
-    //字符编码
-    public static final String ENCODING = "utf-8";
+    // 环境变量:生产、开发、测试
+    public static final String PROD = "prod";
+    public static final String DEV = "dev";
+    public static final String TEST = "test";
 
-    //富文本编辑器redisKey
-    public static final String DETAIL_HEML = "detailPage:";
+    // 状态码
+    public static final int R = -1;
 
-    //申请页面可编辑html，字典表的字典key
-    public static final String HTML_DICT_KEY = "htmlCode";
 
-    public static final String HTML_CACHE_KEY = "htmlCode:";
     /**
      * 登录
      */
@@ -39,15 +39,4 @@ public class CommonConstant {
         //用户的登录标志（redis的key）
         public static final String LOGIN_FLAG_PRE = LOGIN_PRE + "Login_flag:";
     }
-
-    //环境变量
-    public static final String PROD = "prod";
-    public static final String DEV = "dev";
-    public static final String TEST = "test";
-
-
-
-
-
-
 }

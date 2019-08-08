@@ -1,12 +1,14 @@
 package com.bbin.utils.project;
 
-import com.bbin.common.constant.CommonConstant;
+import com.bbin.common.constant.CommonConsts;
+import com.bbin.common.constant.HttpStatusEnum;
 import com.bbin.common.exception.ExceptionCast;
 import com.bbin.common.response.CommonCode;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.response.ResultCode;
+import com.bbin.common.utils.RequestUtils;
+import com.bbin.common.utils.ResponseUtils;
 import com.bbin.utils.CookieUtil;
-import com.bbin.utils.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -30,7 +32,7 @@ public class RequestChecks {
         ResponseResult result = new ResponseResult(resultCode);
         //重定向到登录页面
         response.setHeader("Location", loginUrl);
-        ResponseUtils.writeJson(response,result,302);
+        ResponseUtils.writeJson(response,result, HttpStatusEnum.FOUND);
     }
 
     //从头取出jwt令牌
@@ -61,7 +63,7 @@ public class RequestChecks {
     //查询令牌的有效期
     public static long getExpire(String access_token, RedisTemplate redisTemplate) {
         //key
-        String key = CommonConstant.Login.LOGIN_PRE + "user_token:"+access_token;
+        String key = CommonConsts.Login.LOGIN_PRE + "user_token:"+access_token;
         Long expire = redisTemplate.getExpire(key, TimeUnit.SECONDS);
         return expire;
     }
@@ -69,7 +71,7 @@ public class RequestChecks {
     //校验ip
     public static boolean checkIp(HttpServletRequest request, HttpServletResponse response, List<String> ips,String loginUrl) {
         boolean permit = false;
-        String ipAddress = IpUtil.getIpAddress(request);
+        String ipAddress = RequestUtils.getIpAddress(request);
         if (CollectionUtils.isEmpty(ips)) {
             ExceptionCast.castFailMes("未放行任何ip");
         }
@@ -137,7 +139,7 @@ public class RequestChecks {
     public static void flushJwtInDate(String shortJwtToken, RedisTemplate redis) {
         try {
             //key
-            String key = CommonConstant.Login.LOGIN_TOKEN_PRE + shortJwtToken;
+            String key = CommonConsts.Login.LOGIN_TOKEN_PRE + shortJwtToken;
             Boolean setExpire = redis.expire(key, 1800, TimeUnit.SECONDS);
             if (!setExpire) {
                 log.error("刷新Token过期时间失败：uid:{}", shortJwtToken);
@@ -151,7 +153,7 @@ public class RequestChecks {
     public static void flushLoginFlag(String userName, RedisTemplate redis) {
         try {
             //key
-            String key = CommonConstant.Login.LOGIN_FLAG_PRE + userName;
+            String key = CommonConsts.Login.LOGIN_FLAG_PRE + userName;
             Boolean setExpire = redis.expire(key, 1800, TimeUnit.SECONDS);
             if (!setExpire) {
                 log.error("刷新登录标志过期时间失败：uid:{}", userName);

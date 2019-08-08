@@ -1,7 +1,7 @@
 package com.bbin.utils.project;
 
 import com.alibaba.fastjson.JSON;
-import com.bbin.common.constant.CommonConstant;
+import com.bbin.common.constant.CommonConsts;
 import com.bbin.common.exception.ExceptionCast;
 import com.bbin.common.pojo.AuthToken;
 import com.bbin.common.response.CommonCode;
@@ -23,7 +23,7 @@ public class XcTokenUtil {
      * @return
      */
     public static boolean saveToken(String uid, String content, long ttl, StringRedisTemplate stringRedisTemplate) {
-        String key = CommonConstant.Login.LOGIN_PRE +"user_token:" + uid;
+        String key = CommonConsts.Login.LOGIN_PRE +"user_token:" + uid;
         stringRedisTemplate.boundValueOps(key).set(content, ttl, TimeUnit.SECONDS);
         Long expire = stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
         return expire > 0;
@@ -31,13 +31,13 @@ public class XcTokenUtil {
 
     //删除token
     public static boolean delToken(String uid, StringRedisTemplate stringRedisTemplate) {
-        String key = CommonConstant.Login.LOGIN_PRE +"user_token:" + uid;
+        String key = CommonConsts.Login.LOGIN_PRE +"user_token:" + uid;
         return stringRedisTemplate.delete(key);
     }
 
     //从redis查询令牌
     public static AuthToken getUserToken(String uid, StringRedisTemplate stringRedisTemplate) {
-        String key = CommonConstant.Login.LOGIN_PRE +"user_token:" + uid;
+        String key = CommonConsts.Login.LOGIN_PRE +"user_token:" + uid;
         //从redis中取到令牌信息
         String value = stringRedisTemplate.opsForValue().get(key);
         if (StringUtils.isEmpty(value))  ExceptionCast.cast(CommonCode.UNAUTHENTICATED);
@@ -54,7 +54,7 @@ public class XcTokenUtil {
     //拿出用户信息
     public static AuthToken getUserInfo(HttpServletRequest request, String environment, StringRedisTemplate redis)  {
         // 正式环境
-        if (CommonConstant.PROD.equals(environment)) {
+        if (CommonConsts.PROD.equals(environment)) {
             String uid = XcCookieUtil.getTokenFormCookie(request);
             AuthToken userToken = XcTokenUtil.getUserToken(uid, redis);
             return userToken;

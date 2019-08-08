@@ -1,14 +1,29 @@
-package com.bbin.utils;
+package com.bbin.common.utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * Created by mrt on 2019/4/14 0014 下午 12:11
- * 功能：获取真实的访问ip
+ * Created by mrt on 2019/8/8 0008 下午 1:43
  */
-public class IpUtil {
+public class RequestUtils {
+
+    /**
+     * 获取请求路径后缀
+     * @param request
+     * @return
+     */
+    public static String getRequestPath(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        return requestURI.substring(requestURI.lastIndexOf("/"));
+    }
+
+    /**
+     * 获取ip
+     * @param request
+     * @return
+     */
     public static String getIpAddress(HttpServletRequest request) {
         if (request == null)
             return null;
@@ -33,4 +48,6 @@ public class IpUtil {
         String[] ips = ip.split(",");
         return ips[0];
     }
+
+
 }

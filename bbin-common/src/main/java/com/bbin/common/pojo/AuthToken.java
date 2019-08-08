@@ -11,7 +11,7 @@ import lombok.ToString;
 @Data
 @ToString
 @NoArgsConstructor
-public class AuthToken {
+public class AuthToken   {
     private String access_token;//访问token就是短令牌，用户身份令牌
     private String refresh_token;//刷新token
     private String jwt_token;//jwt令牌
@@ -19,4 +19,6 @@ public class AuthToken {
     private String username;
     private String name;
     private Integer utype;
+    private Long tenantId;
+    private Long channelId;
 }
