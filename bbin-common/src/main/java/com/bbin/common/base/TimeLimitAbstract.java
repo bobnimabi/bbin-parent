@@ -26,11 +26,12 @@ public abstract class TimeLimitAbstract extends HandlerInterceptorAdapter {
 
     // 校验sessionKey时间限制
     protected boolean isTimeLimit(String redisKey,HttpServletRequest request, HttpServletResponse response, StringRedisTemplate redis) throws InvalidValue {
+        String url = request.getRequestURI();
+        log.info("{}:校验开始,访问路径:{}", getPrefix(), url);
+
         Assert.hasText(redisKey,"redisKey is Empty");
         Assert.isNull(redis, "redisTemplate is null");
 
-        String url = request.getRequestURI();
-        log.info("{}:校验开始,访问路径:{}", getPrefix(), url);
         if (RequestUtils.urlMatch(getInterceptUrlSet(),url)) {
             boolean isSave = this.saveSessionKeyTimeLimitToCache(redisKey, redis);
             if (isSave) {
