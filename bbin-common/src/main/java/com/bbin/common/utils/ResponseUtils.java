@@ -37,13 +37,14 @@ public class ResponseUtils {
 
     public static void write(HttpServletResponse response, Object o,String contentType) {
         PrintWriter out = null;
+        response.setContentType(contentType);
         try {
             out = response.getWriter();
         } catch (IOException e) {
             log.error("IOException", e);
         }
         try {
-            response.setContentType(contentType);
+
             out.println(JSON.toJSONString(o));
             out.flush();
         } catch (Exception e) {

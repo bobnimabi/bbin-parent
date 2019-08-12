@@ -27,8 +27,10 @@ public class DurationUtils {
      * @param mills 剩余时间，单位：毫秒
      * @return 转换后的时间字符串(从第一个不为0的时间单位开始显示)
      */
+    // 将long转换成时分秒毫秒
     public static String getResidueTime(long mills) {
         StringBuilder sb = new StringBuilder();
+        sb.append("剩余 ");
         long hour = mills / 3600000;
         long min = mills % 3600000 / 60000;
         long sec = mills % 3600000 % 60000 / 1000;
@@ -38,7 +40,12 @@ public class DurationUtils {
         boolean flag = false;
         for (int i = 0; i < time.length; i++) {
             if (time[i] != 0 || flag) {
-                sb.append(timeStr[i]).append(time[i]);
+                flag = true;
+                if (i != time.length-1) {
+                    sb.append(String.format("%02d",time[i])).append(timeStr[i]);
+                    continue;
+                }
+                sb.append(String.format("%03d",time[i])).append(timeStr[i]);
             }
         }
         return sb.toString();

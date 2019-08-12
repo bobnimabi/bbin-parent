@@ -10,10 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -26,13 +28,18 @@ public abstract class TimeLimitAbstract extends HandlerInterceptorAdapter {
 
     // 校验sessionKey时间限制
     protected boolean isTimeLimit(String redisKey,HttpServletRequest request, HttpServletResponse response, StringRedisTemplate redis) throws InvalidValue {
-        String url = request.getRequestURI();
-        log.info("{}:校验开始,访问路径:{}", getPrefix(), url);
+        log.info("{}:校验开始...", getPrefix());
+        Assert.notNull(redis, "redisTemplate is null");
+        if (StringUtils.isEmpty(getInterceptUrl())) {
+            log.info("拦截路径为空，直接放行");
+            return true;
+        }
+        if (StringUtils.isEmpty(redisKey)) {
+            log.info("sessionId为空，直接放行");
+            return true;
+        }
 
-        Assert.hasText(redisKey,"redisKey is Empty");
-        Assert.isNull(redis, "redisTemplate is null");
-
-        if (RequestUtils.urlMatch(getInterceptUrlSet(),url)) {
+        if (RequestUtils.urlMatch(parseUrlStringToSet(getInterceptUrl()),request.getRequestURI())) {
             boolean isSave = this.saveSessionKeyTimeLimitToCache(redisKey, redis);
             if (isSave) {
                 return true;
@@ -49,6 +56,7 @@ public abstract class TimeLimitAbstract extends HandlerInterceptorAdapter {
         }
         return true;
     }
+
 
     // 存sessionKey时间限制
     private boolean saveSessionKeyTimeLimitToCache(String redisKey, StringRedisTemplate redis) {
@@ -67,6 +75,18 @@ public abstract class TimeLimitAbstract extends HandlerInterceptorAdapter {
         return sb.toString();
     }
 
+    // 将url转换成set
+    private Set<String> parseUrlStringToSet(String urlString) {
+        String[] split = urlString.split(",");
+        Set<String> set = new HashSet<>();
+        for (String url : split) {
+            if (!StringUtils.isEmpty(url)) {
+                set.add(url);
+            }
+        }
+        return set;
+    }
+
     /**
      * 获取过期时间
      */
@@ -79,7 +99,7 @@ public abstract class TimeLimitAbstract extends HandlerInterceptorAdapter {
      * 获取拦截路径
      * @return
      */
-    protected abstract Set<String> getInterceptUrlSet();
+    protected abstract String getInterceptUrl();
 
     /**
      * 获取限制时间

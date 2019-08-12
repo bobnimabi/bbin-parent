@@ -56,10 +56,18 @@ public class ResponseResult implements Response, Serializable {
         return new ResponseResult(CommonCode.SUCCESS,obj);
     }
 
+    //请求成功
+    public static ResponseResult SUCCESS_MES(String message){
+        ResultInfo resultInfo = new ResultInfo(true,10000,message);
+        return new ResponseResult(resultInfo);
+    }
+
     //请求失败，无返回信息
     public static ResponseResult FAIL(){
         return new ResponseResult(CommonCode.FAIL);
     }
+
+
 
     //请求失败，返回错误原因
     public static ResponseResult FAIL(String message){
