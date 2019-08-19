@@ -3,6 +3,8 @@ package com.bbin.common.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 
+import java.io.Serializable;
+
 /**
  * Created by mrt on 2019/6/25 0025 下午 4:51
  */
@@ -17,9 +19,6 @@ public class FastJsonUtils {
      */
     public static String jsonToStringInclude(Object obj,String... strings) {
         SimplePropertyPreFilter filter = new SimplePropertyPreFilter(strings);
-        for (String string : strings) {
-            filter.getIncludes().add(string);
-        }
         return JSON.toJSONString(obj, filter);
     }
 
@@ -31,10 +30,11 @@ public class FastJsonUtils {
      * @
      */
     public static String jsonToStringExclude(Object obj,String... strings) {
-        SimplePropertyPreFilter filter = new SimplePropertyPreFilter(strings);
+        SimplePropertyPreFilter filter = new SimplePropertyPreFilter();
         for (String string : strings) {
             filter.getExcludes().add(string);
         }
         return JSON.toJSONString(obj, filter);
     }
+
 }

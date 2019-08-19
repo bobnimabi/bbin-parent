@@ -1,8 +1,8 @@
 package com.bbin.common.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.bbin.common.constant.HttpStatusEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,23 +15,23 @@ import java.io.PrintWriter;
 @Slf4j
 public class ResponseUtils {
 
-    public static void writeJson(HttpServletResponse response, Object o, HttpStatusEnum statusCode) {
-        response.setStatus(statusCode.code());
+    public static void writeJson(HttpServletResponse response, Object o, HttpStatus statusCode) {
+        response.setStatus(statusCode.value());
         write(response, o, "application/json;charset=utf-8");
     }
 
-    public static void writeHtml(HttpServletResponse response, Object o,HttpStatusEnum statusCode) {
-        response.setStatus(statusCode.code());
+    public static void writeHtml(HttpServletResponse response, Object o,HttpStatus statusCode) {
+        response.setStatus(statusCode.value());
         write(response, o, "text/html;charset=utf-8");
     }
 
-    public static void writeText(HttpServletResponse response, Object o,HttpStatusEnum statusCode) {
-        response.setStatus(statusCode.code());
+    public static void writeText(HttpServletResponse response, Object o,HttpStatus statusCode) {
+        response.setStatus(statusCode.value());
         write(response, o, "text/plain;charset=UTF-8");
     }
 
-    public static void writeXml(HttpServletResponse response, Object o,HttpStatusEnum statusCode) {
-        response.setStatus(statusCode.code());
+    public static void writeXml(HttpServletResponse response, Object o,HttpStatus statusCode) {
+        response.setStatus(statusCode.value());
         write(response, o, "text/xml;charset=UTF-8");
     }
 

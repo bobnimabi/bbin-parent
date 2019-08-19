@@ -3,8 +3,10 @@ package com.bbin.utils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by admin on 2018/3/18.
@@ -49,5 +51,15 @@ public class CookieUtil {
                 }
             }
         return cookieMap;
+    }
+
+    public static Optional<Cookie> readCookieForName(HttpServletRequest request, String cookieName) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            return Arrays.stream(cookies).filter(c -> {
+                return c.getName().equals(cookieName);
+            }).findFirst();
+        }
+        return Optional.empty();
     }
 }

@@ -1,7 +1,6 @@
 package com.bbin.common.base;
 
 
-import com.bbin.common.constant.HttpStatusEnum;
 import com.bbin.common.response.ResponseResult;
 import com.bbin.common.utils.DurationUtils;
 import com.bbin.common.utils.RequestUtils;
@@ -9,6 +8,7 @@ import com.bbin.common.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -25,36 +25,47 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 public abstract class TimeLimitAbstract extends HandlerInterceptorAdapter {
+    private static final String CLASS_NAME = "TIME_LIMIT:";
 
     // 校验sessionKey时间限制
     protected boolean isTimeLimit(String redisKey,HttpServletRequest request, HttpServletResponse response, StringRedisTemplate redis) throws InvalidValue {
-        log.info("{}:校验开始...", getPrefix());
-        Assert.notNull(redis, "redisTemplate is null");
-        if (StringUtils.isEmpty(getInterceptUrl())) {
-            log.info("拦截路径为空，直接放行");
-            return true;
-        }
-        if (StringUtils.isEmpty(redisKey)) {
-            log.info("sessionId为空，直接放行");
-            return true;
-        }
+        String prefix = getPrefix();
+        Assert.hasText(prefix,  "prefix不能为null");
 
-        if (RequestUtils.urlMatch(parseUrlStringToSet(getInterceptUrl()),request.getRequestURI())) {
-            boolean isSave = this.saveSessionKeyTimeLimitToCache(redisKey, redis);
-            if (isSave) {
-                return true;
-            }
-            // sessionKey时间校验
-            long limitTime = this.getLimitTime(redisKey, redis);
-            if (limitTime > 0 || -1 == limitTime) {
-                ResponseUtils.writeJson(response, ResponseResult.FAIL(this.createReject(getPrefix(), limitTime)), HttpStatusEnum.FORBIDDEN);
-                return false;
-            }
-            if (-2 == limitTime) {
-                throw new InvalidValue("redisKey不存在:" + redisKey);
-            }
+        log.info("{}:校验开始...", prefix);
+        if (isPermit(request)) {
+            return true;
         }
-        return true;
+        Assert.notNull(redis, prefix + ":redisTemplate不能为null");
+        Assert.hasText(redisKey,prefix + ":redisKey不能为null");
+
+        // 若能存入，直接放行
+        boolean isSave = this.saveSessionKeyTimeLimitToCache(redisKey, redis);
+        if (isSave) {
+            return true;
+        }
+        // 不能存入，返回限制时间
+        long limitTime = this.getLimitTime(redisKey, redis);
+        if (limitTime > 0 || -1 == limitTime) {
+            ResponseUtils.writeJson(response, ResponseResult.FAIL(this.createReject(prefix, limitTime)), HttpStatus.FORBIDDEN);
+        }
+        if (-2 == limitTime) {
+            throw new InvalidValue("redisKey不存在:" + redisKey);
+        }
+        return false;
+    }
+
+    // 拦截路径校验
+    private boolean isPermit(HttpServletRequest request) {
+        if (StringUtils.isEmpty(getInterceptUrl())) {
+            log.info("{}:直接放行->拦截路径为空",getPrefix());
+            return true;
+        }
+        if (!RequestUtils.urlMatch(parseUrlStringToSet(getInterceptUrl()), request.getRequestURI())) {
+            log.info("{}:路径放行->路径:{}",getPrefix(),request.getRequestURI());
+            return true;
+        }
+        return false;
     }
 
 

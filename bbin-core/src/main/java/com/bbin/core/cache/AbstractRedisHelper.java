@@ -1,4 +1,4 @@
-package com.bbin.common.cache;
+package com.bbin.core.cache;
 
 import com.alibaba.fastjson.JSON;
 import com.bbin.common.exception.ExceptionCast;
@@ -16,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by mrt on 2019/6/25 0025 下午 3:09
  */
 @Slf4j
-public class RedisHelperTemplate {
+public class AbstractRedisHelper {
     //一个key会维护一个锁
     private static Map<String, ReentrantLock> lockMap = new HashMap<>();
     //创建锁的锁

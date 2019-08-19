@@ -1,7 +1,6 @@
 package com.bbin.utils.project;
 
 import com.bbin.common.constant.CommonConsts;
-import com.bbin.common.constant.HttpStatusEnum;
 import com.bbin.common.exception.ExceptionCast;
 import com.bbin.common.response.CommonCode;
 import com.bbin.common.response.ResponseResult;
@@ -12,6 +11,7 @@ import com.bbin.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +32,7 @@ public class RequestChecks {
         ResponseResult result = new ResponseResult(resultCode);
         //重定向到登录页面
         response.setHeader("Location", loginUrl);
-        ResponseUtils.writeJson(response,result, HttpStatusEnum.FOUND);
+        ResponseUtils.writeJson(response,result, HttpStatus.FOUND);
     }
 
     //从头取出jwt令牌

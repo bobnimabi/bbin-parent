@@ -1,5 +1,7 @@
 package com.bbin.common.constant;
 
+import org.springframework.http.HttpStatus;
+
 import java.math.BigDecimal;
 
 /**
@@ -18,6 +20,13 @@ public class CommonConsts {
 
     // 字符编码
     public static final String ENCODING_UTF_8 = "utf-8";
+
+    // 请求方式
+    public static final String POST = "POST";
+    public static final String GET = "GET";
+
+    // 签名头key
+    public static final String SIGN = "sign";
 
     // 环境变量:生产、开发、测试
     public static final String PROD = "prod";

@@ -11,6 +11,7 @@
         <module>bbin-utils</module>
         <module>bbin-common</module>
         <module>bbin-api</module>
+        <module>bbin-core</module>
     </modules>
 
     <packaging>pom</packaging>

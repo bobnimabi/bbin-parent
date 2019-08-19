@@ -1,4 +1,4 @@
-package com.bbin.common.utils;
+package com.bbin.core.utils;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -186,8 +186,9 @@ public class SignByRSA {
 
             // RSA签名
             String sign = sign(data, getPrivateKey(privateKey));
+            String publicKey1 = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC9SThqD3b595qucUhZ1Swe4/8auqfsqvgqNNbPyUq8LeAsbT+AXlH0/ukEeQ5Xc/5nuSJ1OMBR5jg+nhw0B0qe6UldlFIbePC+f8Co4+jnz+zbGecf7/rxq2vi2MbwETPGfBpjSZf53z68eUQwpq58Ofonto63Xin3kCb/rzbnmQIDAQAB";
             // RSA验签
-            boolean result = verify(data, getPublicKey(publicKey), sign);
+            boolean result = verify(data, getPublicKey(publicKey1), sign);
             System.out.print("验签结果:" + result);
         } catch (Exception e) {
             e.printStackTrace();

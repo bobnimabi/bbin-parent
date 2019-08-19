@@ -7,16 +7,13 @@
         <groupId>com.bbin</groupId>
         <version>2.1.0-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>bbin-utils</artifactId>
 
     <dependencies>
-        <!-- 这里必须指定common的版本号，不能使用project.version-->
         <dependency>
             <groupId>com.bbin</groupId>
-            <artifactId>bbin-common</artifactId>
+            <artifactId>bbin-core</artifactId>
             <version>2.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -115,6 +112,7 @@
             <artifactId>velocity-engine-core</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
