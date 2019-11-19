@@ -41,7 +41,7 @@ public class MyCodeGenUtils {
             gc.setOutputDir(projectPath + "src/main/java");
             gc.setAuthor("admin");
             gc.setOpen(false);
-            gc.setSwagger2(true); //实体属性 Swagger2 注解
+            gc.setSwagger2(false); //实体属性 Swagger2 注解
             gc.setFileOverride(false);
             mpg.setGlobalConfig(gc);
 

@@ -33,7 +33,7 @@ public class Validation {
      */
     public static final String  INTEGER_NEGATIVE = "^[1-9]\\d*|0$";
     public static final String IP = "^(([1-9]|([1-9]\\d)|(1\\d\\d)|(2([0-4]\\d|5[0-5])))\\.)(([1-9]|([1-9]\\d)|(1\\d\\d)|(2([0-4]\\d|5[0-5])))\\.){2}([1-9]|([1-9]\\d)|(1\\d\\d)|(2([0-4]\\d|5[0-5])))$";
-
+    public static final String PORT = "([0-9]|[1-9]\\d{1,3}|[1-5]\\d{4}|6[0-4]\\d{4}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])";
     /** 
      * 负整数正则表达式 <=0 ^-[1-9]\d*|0$ 
      */
@@ -189,6 +189,14 @@ public class Validation {
      */
     public static  boolean isIp(String str) {
         return Regular(str,IP);
+    }
+    /**
+     * 判断是否为Port地址 符合返回ture
+     * @param str
+     * @return boolean
+     */
+    public static  boolean isPort(String str) {
+        return Regular(str, PORT);
     }
     /** 
      * 判断是否为Url 符合返回ture 

@@ -24,7 +24,7 @@ public class AspectUtils {
      * 请求参数打印
      */
     public static void saveReqLog(ProceedingJoinPoint joinPoint, String className, String methodName) {
-        //请求的参数
+        // 请求的参数
         try {
             Object[] args = joinPoint.getArgs();
             log.info("class:{} method:{} reqParams:{}", className, methodName, getParams(args));

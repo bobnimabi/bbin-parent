@@ -1,4 +1,4 @@
-package com.bbin.core.utils;
+package com.bbin.core.test;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -6,6 +6,8 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -13,9 +15,9 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 /**
- * 签名工具类
-*/
-public class SignByRSA {
+ * Created by mrt on 9/30/2019 1:01 PM
+ */
+public class MySignByRSA {
     /**
      * RSA最大加密明文大小
      */
@@ -169,8 +171,9 @@ public class SignByRSA {
     public static void main(String[] args) throws Exception {
         String data = "ASD123456a";
         String encryptData = encrypt(data, getPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCMtwdpuOSfkXHN9pWrlv+ieWEw4/8HeQPY9Q0QEyPfEIFs7rMOrxjd6jbEXIWLJh+6bRPEkdGQRjOAftsb62mjRHHzwBUuYqlDaNrRXgh4o6X/wO2b50h0VEVaqaxtHi3GHyToAIDdpmbnl/wVSONWeIMwdTeWg+HpOJz3aw/fHwIDAQAB"));
-        System.out.println("加密后内容:" + encryptData);
-        test2();
+        System.out.println("加密后内容Base64:" + encryptData);
+        System.out.println("加密后内容Base64+URL:" + URLEncoder.encode(encryptData, StandardCharsets.UTF_8.name()));
+
     }
 
     public static void test2() {

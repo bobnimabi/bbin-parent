@@ -11,6 +11,8 @@ import java.time.format.DateTimeFormatter;
 public class DateUtils {
 
     public static DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static DateTimeFormatter DF_2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    public static DateTimeFormatter DF_3 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static String getEndPayDate(LocalDateTime localDateTime) {
         if (localDateTime == null) {
             localDateTime = LocalDateTime.now();
