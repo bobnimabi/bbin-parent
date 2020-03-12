@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,17 +40,12 @@ public class ResponseUtils {
         PrintWriter out = null;
         response.setContentType(contentType);
         try {
-            out = response.getWriter();
+            ServletOutputStream outputStream = response.getOutputStream();
+            outputStream.write(JSON.toJSONBytes(o));
+            out.flush();
         } catch (IOException e) {
             log.error("IOException", e);
-        }
-        try {
-
-            out.println(JSON.toJSONString(o));
-            out.flush();
-        } catch (Exception e) {
-            log.info("response异常", e);
-        } finally {
+        }finally {
             if (null != out) {
                 out.close();
             }
